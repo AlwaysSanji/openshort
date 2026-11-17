@@ -1,0 +1,17 @@
+{
+  "buffer_duration": 120,
+  "chunk_duration": 3,
+  "pre_roll": 15,
+  "post_roll": 10,
+  "excitement_threshold": 70,
+  "audio_sensitivity": 1.0,
+  "motion_sensitivity": 1.0,
+  "audio_weight": 0.5,
+  "motion_weight": 0.3,
+  "chat_weight": 0.2,
+  "cooldown_seconds": 15,
+  "hotkey": "f9",
+  "auto_generate_shorts": false,
+  "shorts_style": "blurred_bg",
+  "port": 8000
+}

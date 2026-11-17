@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.env
+venv/
+.venv/
+
+# Large media files and caches
+temp_buffer/*
+!temp_buffer/.gitkeep
+clips/*.mp4
+clips/*.jpg
+clips/*.srt
+!clips/.gitkeep
+clips/metadata.json
+
+# System & IDE
+.vscode/
+.idea/
+*.log
