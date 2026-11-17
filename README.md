@@ -1,105 +1,150 @@
 # ⚡ OpenShort LiveClipper
 
-**OpenShort LiveClipper** is an autonomous clipping station for PC that monitors live streams or local gameplay in real time, automatically detects the best moments (screams, caster hype, crazy kills, chat explosions, explosive action), and instantly extracts lossless clips and viral 9:16 vertical shorts.
+<p align="center">
+  <strong>Autonomous AI-Powered Highlight Clipper for Live Streams & PC Gameplay</strong>
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.12%2B-blue?logo=python&logoColor=white" alt="Python Version" />
+  <img src="https://img.shields.io/badge/FastAPI-0.110%2B-009688?logo=fastapi&logoColor=white" alt="FastAPI" />
+  <img src="https://img.shields.io/badge/FFmpeg-Enabled-green?logo=ffmpeg&logoColor=white" alt="FFmpeg" />
+  <img src="https://img.shields.io/badge/AI-Faster--Whisper-purple" alt="Faster-Whisper" />
+  <img src="https://img.shields.io/badge/Platform-Windows-0078D6?logo=windows&logoColor=white" alt="Windows" />
+  <img src="https://img.shields.io/badge/License-MIT-yellow" alt="License" />
+</p>
 
 ---
 
-## 🌟 Key Features
+## 📌 Overview
 
-1. **Multi-Signal "Best Part" Excitement Engine**:
-   - 🔊 **Audio Surge & Screaming Detection**: Tracks dynamic decibels (dBFS) and Z-score variance against ambient stream noise. Triggers on screams, caster hype, laughs, and sudden loud volume surges.
-   - 🎬 **Visual Motion Dynamics**: Optical frame-difference analysis detecting rapid combat, camera whips, screen flashes, and high-action sequences.
-   - 💬 **Live Twitch Chat Velocity & Buzzwords**: Reads Twitch chat anonymously (`irc.chat.twitch.tv`) in real-time, detecting message rate spikes and hype emotes (`POG`, `POGGERS`, `OMEGALUL`, `LMAO`, `WTF`, `W`, `CLIP IT`, `INSANE`).
-   - ⚡ **Global PC Hotkey (`F9`)**: Hit `F9` anywhere on your PC (even inside full-screen games) to retroactively save the last 30 seconds into your clips library!
-
-2. **Circular Rolling Ring-Buffer (Zero Lag)**:
-   - Maintains a smooth rolling buffer of the past 60–120 seconds in micro-segments.
-   - When a highlight is triggered, it extracts `[Trigger - PreRoll]` to `[Trigger + PostRoll]` (e.g. 15s before the spike + 10s after).
-   - Automatically debounces and merges continuous hype moments into coherent single clips.
-
-3. **Multiple Ingestion Sources**:
-   - 🌐 **Live Stream URL**: Ingest live streams from **Twitch, YouTube Live, Kick**, or direct HLS/m3u8/RTMP links.
-   - 🖥️ **PC Desktop / Game Capture**: Ingest your desktop screen & game live via FFmpeg.
-   - 📁 **Local Video / VOD**: Fast-scan pre-recorded videos to auto-generate highlights.
-   - 🎮 **Live Demo Simulator**: Built-in test simulator with periodic hype moments to test the entire clipping pipeline with 1 click!
-
-4. **1-Click 9:16 Shorts & TikTok Converter**:
-   - Transforms 16:9 widescreen highlights into 1080x1920 9:16 vertical shorts.
-   - Features ambient blurred background framing (the standard used by top creators) or direct center cropping.
-
-5. **AI Subtitles with Faster-Whisper**:
-   - Built-in speech recognition generates word-level `.srt` subtitles automatically for your clips.
-
-6. **Cyberpunk Creator Dashboard**:
-   - Real-time animated radial excitement gauge (0-100%).
-   - Live audio decibel meters & motion trackers.
-   - Interactive clip gallery with built-in HTML5 player, trimmer, download, and "Show in Windows Explorer" integration.
+**OpenShort LiveClipper** is an autonomous clipping station built for content creators and streamers. It continuously monitors live streams or local PC desktop gameplay inside a zero-latency circular buffer, automatically identifies high-energy moments (caster hype, screams, chat bursts, combat peaks), and instantly cuts lossless 16:9 highlight clips and viral 9:16 vertical shorts.
 
 ---
 
-## 🚀 Quick Start (Windows PC)
+## 🚀 Key Highlights
 
-### 1-Click Launch:
-Double-click `start.bat` in the project folder.
+### 🧠 1. Multi-Signal Excitement Engine
+- **Audio Surge & Scream Detection**: Calculates dynamic decibel energy (dBFS) and rolling Z-score standard deviations to catch sudden shouts, cheers, and explosions while ignoring steady background music.
+- **Visual Motion Dynamics**: Computes frame-to-frame optical differentials at 30 fps to detect rapid camera pans, explosions, and combat action.
+- **Twitch Chat Velocity Tracker**: Connects anonymously to Twitch IRC (`irc.chat.twitch.tv`) to detect message rate surges and hype emotes (`POG`, `LMAO`, `WTF`, `W`, `CLIP IT`, `INSANE`).
+- **Global Hotkey (`F9`)**: Retroactively extracts the last 30 seconds anytime from full-screen games or desktop applications.
 
-### Or via Terminal:
-```bash
-python main.py
+### 🔄 2. Circular Rolling Buffer
+- Keeps a lightweight 60–120 second segmented memory cache.
+- Cuts exact windows: `[Event - PreRoll]` to `[Event + PostRoll]`.
+- Automatically debounces back-to-back excitement bursts to prevent chopped duplicates.
+
+### 📱 3. Studio Pro Shorts Suite
+- **🌟 Studio Ambient Glow**: 1080x1920 layout with dimmed, blurred background depth and centered sharp gameplay.
+- **🎮 Stacked Split**: Top 35% zoomed facecam with bottom 65% gameplay action (the standard for TikTok and YouTube Shorts).
+- **🎯 Action Zoom**: Full 1080x1920 borderless action focus.
+- **🔊 EBU R128 Broadcast Audio Leveling**: Built-in `loudnorm` filter eliminates distorted screaming while elevating soft speech.
+- **🎨 HDR Color Grade**: Enhances contrast (+8%) and saturation (+18%) for high-impact visual pop.
+- **🔥 AI Styled Captions**: Automatically generates and burns in bold yellow, black-bordered viral subtitles via local `faster-whisper`.
+
+### 🔗 4. Universal Link Clipper
+- Paste any YouTube video, YouTube Live stream, Twitch VOD, or Kick URL.
+- Auto-detects highlights or cuts custom time intervals without downloading entire streams.
+
+---
+
+## 🛠️ Architecture
+
 ```
-This automatically launches the application and opens your default browser to:
+                  ┌──────────────────────────────┐
+                  │ Ingestion Sources            │
+                  │ • Live URL (Twitch/YouTube)  │
+                  │ • PC Desktop (gdigrab)       │
+                  │ • Local Video / VOD          │
+                  │ • Synthetic Live Simulator   │
+                  └──────────────┬───────────────┘
+                                 │
+                                 ▼
+                  ┌──────────────────────────────┐
+                  │ Rolling Ring Buffer (120s)   │
+                  └──────────────┬───────────────┘
+                                 │
+                     ┌───────────┴───────────┐
+                     ▼                       ▼
+          ┌──────────────────────┐  ┌──────────────────┐
+          │ Excitement Engine    │  │ Global PC Hotkey │
+          │ • Audio dBFS Surge   │  │ • F9 Listener    │
+          │ • Motion Dynamics    │  └────────┬─────────┘
+          │ • Chat Velocity      │           │
+          └──────────┬───────────┘           │
+                     │                       │
+                     └───────────┬───────────┘
+                                 │ Trigger Event
+                                 ▼
+                  ┌──────────────────────────────┐
+                  │ Clip Extraction & Concat     │
+                  └──────────────┬───────────────┘
+                                 │
+                     ┌───────────┴───────────┐
+                     ▼                       ▼
+          ┌──────────────────────┐  ┌──────────────────┐
+          │ 16:9 Lossless Master │  │ Studio Pro 9:16  │
+          │ • HDR Color Grade    │  │ • Ambient Glow   │
+          │ • Loudnorm Audio     │  │ • Stacked Split  │
+          │ • Smooth Fades       │  │ • Action Zoom    │
+          └──────────────────────┘  │ • Viral Captions │
+                                    └──────────────────┘
+```
+
+---
+
+## 💻 Quick Start
+
+### Prerequisites
+1. **Python 3.10+** installed.
+2. **FFmpeg** installed and accessible in your system `PATH`.
+
+### Installation
+```bash
+git clone https://github.com/AlwaysSanji/openshort.git
+cd openshort
+pip install -r requirements.txt
+```
+
+### Launching the Dashboard
+- **Windows 1-Click**: Double-click `start.bat`
+- **Or via Terminal**:
+  ```bash
+  python main.py
+  ```
+The dashboard will open automatically in your browser at:  
 👉 **`http://localhost:8000`**
 
 ---
 
-## ⌨️ Hotkeys & Controls
+## ⌨️ Controls & Shortcuts
 
-| Shortcut | Action |
+| Action | Shortcut / Control |
 |---|---|
-| **F9** | Global PC Hotkey: Instantly saves the last 30 seconds from anywhere (in-game or desktop) |
-| **Space** | Play / Pause clip in modal player |
-| **Settings (⚙️)** | Adjust excitement thresholds, pre/post roll durations, and signal weights |
+| **Instant Clip** | Press `F9` anywhere on PC (desktop or in-game) |
+| **Play / Pause Clip** | `Spacebar` in player modal |
+| **Direct URL Clipping** | Navigate to `🔗 Clip From Link` tab in dashboard |
+| **Tuning Settings** | Click `⚙️` to adjust thresholds & buffer windows |
 
 ---
 
-## 📁 Project Structure
+## 🔌 API Endpoints
 
-```
-openshort/
-├── app/
-│   ├── buffer_manager.py     # Thread-safe rolling ring buffer
-│   ├── chat_monitor.py       # Anonymous Twitch IRC chat velocity monitor
-│   ├── clipper.py            # FFmpeg clip extractor, 9:16 short converter & metadata
-│   ├── config.py             # Settings & persistence
-│   ├── detector.py           # Multi-signal excitement detection engine
-│   ├── hotkey_listener.py    # Global PC keyboard hook (pynput)
-│   ├── stream_ingest.py      # Multi-source live ingestion manager
-│   └── transcriber.py        # faster-whisper AI subtitle generator
-├── static/
-│   ├── app.js               # Reactive WebSocket UI logic
-│   ├── index.html            # Dark cyberpunk dashboard UI
-│   ├── style.css             # Glassmorphism & animated styling
-│   └── thumb_fallback.png    # Fallback clip thumbnail
-├── clips/                    # Exported highlight MP4s, shorts, and thumbnails
-├── temp_buffer/              # Temporary circular buffer cache
-├── server.py                 # FastAPI backend & WebSocket server
-├── main.py                   # PC CLI / Desktop launcher
-├── start.bat                 # 1-Click Windows launcher
-├── test_system.py            # End-to-end automated verification tests
-└── README.md                 # Documentation
-```
+| Method | Endpoint | Description |
+|---|---|---|
+| `GET` | `/api/status` | Read ingestion engine & buffer status |
+| `POST` | `/api/start` | Start live capture (`url`, `desktop`, `simulator`) |
+| `POST` | `/api/stop` | Stop live capture |
+| `POST` | `/api/clip_now` | Trigger instantaneous retroactive clip |
+| `POST` | `/api/clip_from_link` | Extract clip from YouTube/Twitch link |
+| `GET` | `/api/clips` | Fetch all saved clips & metadata |
+| `POST` | `/api/clips/{id}/short` | Generate 9:16 vertical short (`studio_glow`, `stacked_split`) |
+| `POST` | `/api/clips/{id}/enhance` | Remaster 16:9 clip with loudnorm & color grade |
+| `POST` | `/api/clips/{id}/trim` | Trim clip with custom start and end points |
+| `POST` | `/api/clips/{id}/open` | Reveal file in Windows File Explorer |
+| `DELETE` | `/api/clips/{id}` | Delete clip and associated files |
 
 ---
 
-## 🛠️ REST API Endpoints
-
-- `GET /api/status` - Current streaming and buffer status
-- `POST /api/start` - Start monitoring (`{"source_type": "simulator|url|desktop|file", "source_target": "..."}`)
-- `POST /api/stop` - Stop monitoring
-- `POST /api/clip_now` - Trigger retroactive clip
-- `GET /api/clips` - Get all captured clips with metadata
-- `POST /api/clips/{id}/short` - Convert clip to 9:16 vertical short
-- `POST /api/clips/{id}/trim` - Trim clip with `{start_time, end_time}`
-- `POST /api/clips/{id}/transcribe` - Generate subtitles with Whisper AI
-- `POST /api/clips/{id}/open` - Reveal clip in Windows File Explorer
-- `DELETE /api/clips/{id}` - Delete clip and associated files
-- `GET /api/config` & `POST /api/config` - Read / update thresholds
+## 📄 License
+This project is open-source under the [MIT License](LICENSE).
